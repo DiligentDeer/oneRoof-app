@@ -6,13 +6,18 @@ import time
 from datetime import datetime
 import os
 import ast
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Constants
-ADMIN_PASSWORD = 'admin'  # Change this to a secure password in production
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'admin123')  # Default password if not set
 QUIZ_TIME_LIMIT = 30  # minutes
 
-# File paths
-DATA_DIR = 'data'
+# File paths - use absolute paths for deployment
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, 'data')
 ATTEMPTS_FILE = os.path.join(DATA_DIR, 'Quiz Attempts.csv')
 QUESTIONS_FILE = os.path.join(DATA_DIR, 'Questions.csv')
 ANSWERS_FILE = os.path.join(DATA_DIR, 'Answers.csv')
@@ -23,6 +28,43 @@ os.makedirs(DATA_DIR, exist_ok=True)
 # Load quiz data from CSV
 def load_quiz_data():
     try:
+        # Check if Questions.csv exists, if not create it with sample data
+        if not os.path.exists(QUESTIONS_FILE):
+            sample_questions = pd.DataFrame([
+                {
+                    'id': 1,
+                    'question': 'What is the capital of France?',
+                    'options': "['London', 'Berlin', 'Paris', 'Madrid']",
+                    'correct_answer': 'Paris'
+                },
+                {
+                    'id': 2,
+                    'question': 'Which planet is known as the Red Planet?',
+                    'options': "['Venus', 'Mars', 'Jupiter', 'Saturn']",
+                    'correct_answer': 'Mars'
+                },
+                {
+                    'id': 3,
+                    'question': 'What is the largest mammal in the world?',
+                    'options': "['African Elephant', 'Blue Whale', 'Giraffe', 'Hippopotamus']",
+                    'correct_answer': 'Blue Whale'
+                },
+                {
+                    'id': 4,
+                    'question': 'Who painted the Mona Lisa?',
+                    'options': "['Vincent van Gogh', 'Pablo Picasso', 'Leonardo da Vinci', 'Michelangelo']",
+                    'correct_answer': 'Leonardo da Vinci'
+                },
+                {
+                    'id': 5,
+                    'question': 'What is the chemical symbol for gold?',
+                    'options': "['Ag', 'Fe', 'Au', 'Cu']",
+                    'correct_answer': 'Au'
+                }
+            ])
+            sample_questions.to_csv(QUESTIONS_FILE, index=False)
+        
+        # Load questions from CSV
         questions_df = pd.read_csv(QUESTIONS_FILE)
         questions = []
         for _, row in questions_df.iterrows():
