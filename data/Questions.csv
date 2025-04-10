@@ -1,0 +1,6 @@
+id,question,options,correct_answer
+1,"What is the capital of France?","['London', 'Berlin', 'Paris', 'Madrid']","Paris"
+2,"Which planet is known as the Red Planet?","['Venus', 'Mars', 'Jupiter', 'Saturn']","Mars"
+3,"What is the largest mammal in the world?","['African Elephant', 'Blue Whale', 'Giraffe', 'Hippopotamus']","Blue Whale"
+4,"Who painted the Mona Lisa?","['Vincent van Gogh', 'Pablo Picasso', 'Leonardo da Vinci', 'Michelangelo']","Leonardo da Vinci"
+5,"What is the chemical symbol for gold?","['Ag', 'Fe', 'Au', 'Cu']","Au" 
